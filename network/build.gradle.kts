@@ -1,10 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
-    namespace = "com.jess.kurly.ui"
+    namespace = "com.jess.kurly.network"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -28,21 +30,17 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
 }
 
 dependencies {
-    // compose
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.androidx.composes)
+//    // project
+//    implementation(project(":data"))
 
-    // coil
-    implementation(libs.coil.compose)
+    // dagger
+    implementation(libs.dagger.hilt.android)
+    ksp(libs.dagger.hilt.compiler)
+
+    // retrofit
+    implementation(libs.bundles.retrofits)
+    implementation(libs.okhttp.logging)
 }

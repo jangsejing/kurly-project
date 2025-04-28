@@ -22,5 +22,6 @@ dependencyResolutionManagement {
 rootProject.name = "kurly-project"
 include(
     ":app",
+    ":network",
     ":ui",
 )
