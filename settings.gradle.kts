@@ -23,5 +23,6 @@ rootProject.name = "kurly-project"
 include(
     ":app",
     ":network",
+    ":navigator",
     ":ui",
 )

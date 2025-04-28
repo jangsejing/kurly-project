@@ -47,6 +47,10 @@ android {
 }
 
 dependencies {
+
+    // projects
+    implementation(project(":navigator"))
+
     // androidx
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
