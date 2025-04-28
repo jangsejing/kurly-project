@@ -19,5 +19,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "kurly"
-include(":app")
+rootProject.name = "kurly-project"
+include(
+    ":app",
+    ":ui",
+)

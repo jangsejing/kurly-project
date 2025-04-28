@@ -1,26 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.dagger.hilt)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.jess.kurly"
+    namespace = "com.jess.kurly.ui"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = libs.versions.applicationId.get()
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = libs.versions.versionCode.get().toInt()
-        versionName = libs.versions.versionName.get()
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -43,19 +35,10 @@ android {
 }
 
 dependencies {
-    // androidx
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.bundles.androidx.lifecycle.runtimes)
-
     // compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.androidx.composes)
 
-    // dagger
-    implementation(libs.dagger.hilt.android)
-    ksp(libs.dagger.hilt.compiler)
-
-    // other
-    implementation(libs.timber.core)
+    // coil
+    implementation(libs.coil.compose)
 }
