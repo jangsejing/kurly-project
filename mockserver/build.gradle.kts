@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.jess.kurly.network"
+    namespace = "com.jess.kurly.mockserver"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -33,10 +33,6 @@ android {
 }
 
 dependencies {
-    // project
-    implementation(project(":data"))
-    implementation(project(":mockserver"))
-
     // dagger
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.compiler)

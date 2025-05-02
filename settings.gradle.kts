@@ -22,7 +22,10 @@ dependencyResolutionManagement {
 rootProject.name = "kurly-project"
 include(
     ":app",
+    ":data",
+    ":domain",
     ":network",
+    ":mockserver",
     ":navigator",
     ":ui",
 )

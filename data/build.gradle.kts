@@ -1,12 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.dagger.hilt)
 }
 
 android {
-    namespace = "com.jess.kurly.network"
+    namespace = "com.jess.kurly.data"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -34,14 +32,8 @@ android {
 
 dependencies {
     // project
-    implementation(project(":data"))
-    implementation(project(":mockserver"))
+    implementation(project(":domain"))
 
-    // dagger
-    implementation(libs.dagger.hilt.android)
-    ksp(libs.dagger.hilt.compiler)
-
-    // retrofit
-    implementation(libs.bundles.retrofits)
-    implementation(libs.okhttp.logging)
+    implementation(libs.javax.inject)
+    implementation(libs.retrofit.gson)
 }
