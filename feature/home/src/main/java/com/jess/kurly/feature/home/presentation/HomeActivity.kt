@@ -1,7 +1,5 @@
 package com.jess.kurly.feature.home.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,15 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
-
-    companion object {
-
-        fun newIntent(
-            context: Context,
-        ): Intent {
-            return Intent(context, HomeActivity::class.java)
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

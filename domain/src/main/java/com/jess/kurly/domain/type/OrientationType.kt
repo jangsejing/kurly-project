@@ -1,6 +1,6 @@
 package com.jess.kurly.domain.type
 
-enum class SectionType {
+enum class OrientationType {
     GRID,
     HORIZONTAL,
     VERTICAL,
@@ -8,7 +8,7 @@ enum class SectionType {
 
     companion object {
 
-        fun from(type: String?): SectionType {
+        fun from(type: String?): OrientationType {
             return entries.find {
                 it.name == type?.uppercase()
             } ?: VERTICAL // 기본값

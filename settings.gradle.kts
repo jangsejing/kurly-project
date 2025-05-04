@@ -11,6 +11,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -24,8 +25,8 @@ include(
     ":app",
     ":data",
     ":domain",
+    ":feature:home",
     ":network",
     ":mockserver",
-    ":navigator",
     ":ui",
 )

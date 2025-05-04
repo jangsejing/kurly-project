@@ -5,11 +5,13 @@ import com.google.gson.annotations.SerializedName
 data class SectionsResponse(
     @SerializedName("data")
     val data: List<SectionResponse>?,
+    @SerializedName("paging")
+    val paging: SectionPaging?,
 )
 
 data class SectionResponse(
     @SerializedName("id")
-    val id: Long?,
+    val id: Int?,
     @SerializedName("type")
     val type: String?,
     @SerializedName("title")
@@ -18,3 +20,7 @@ data class SectionResponse(
     val url: String?,
 )
 
+data class SectionPaging(
+    @SerializedName("next_page")
+    val nextPage: Int?,
+)

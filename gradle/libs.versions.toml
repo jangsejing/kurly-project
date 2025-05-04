@@ -20,9 +20,10 @@ ksp = "1.9.24-1.0.20"
 androidxActivityCompose = "1.9.1"
 androidxCoreKtx = "1.13.1"
 androidxLifecycleRuntimeKtx = "2.8.4"
+androidxHiltNavigationCompose = "1.2.0"
 
 # compose
-composeBom = "2024.08.00"
+composeBom = "2024.09.03"
 composeCompiler = "1.5.14"
 
 # coil
@@ -51,6 +52,7 @@ timber = "4.7.1"
 # androidx
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCoreKtx" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycleRuntimeKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycleRuntimeKtx" }
 

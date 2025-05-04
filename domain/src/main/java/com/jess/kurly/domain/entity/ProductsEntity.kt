@@ -5,9 +5,10 @@ data class ProductsEntity(
 )
 
 data class ProductEntity(
-    val id: Long?,
+    val id: Int?,
     val name: String?,
     val image: String?,
     val originalPrice: Int?,
+    val discountedPrice: Int?,
     val isSoldOut: Boolean?,
 )

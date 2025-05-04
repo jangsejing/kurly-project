@@ -3,16 +3,17 @@ package com.jess.kurly.data.remote
 import com.jess.kurly.data.model.ProductsResponse
 import com.jess.kurly.data.model.SectionsResponse
 import retrofit2.http.GET
+import retrofit2.http.Query
 
-interface KurlyRemoteDatasource {
+interface KurlyRemoteDataSource {
 
     @GET("sections")
-    fun getSections(
-        page: Int,
+    suspend fun getSections(
+        @Query("page") page: Int,
     ): SectionsResponse
 
     @GET("section/products")
-    fun getProducts(
-        sectionId: Int,
+    suspend fun getProducts(
+        @Query("sectionId") sectionId: Int,
     ): ProductsResponse
 }

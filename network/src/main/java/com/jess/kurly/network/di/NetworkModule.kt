@@ -1,7 +1,7 @@
 package com.jess.kurly.network.di
 
 import android.content.Context
-import com.jess.kurly.data.remote.KurlyRemoteDatasource
+import com.jess.kurly.data.remote.KurlyRemoteDataSource
 import com.kurly.android.mockserver.MockInterceptor
 import dagger.Module
 import dagger.Provides
@@ -45,7 +45,7 @@ class NetworkModule {
     @Provides
     fun provideKurlyRemoteDatasource(
         retrofit: Retrofit,
-    ): KurlyRemoteDatasource {
-        return retrofit.create(KurlyRemoteDatasource::class.java)
+    ): KurlyRemoteDataSource {
+        return retrofit.create(KurlyRemoteDataSource::class.java)
     }
 }

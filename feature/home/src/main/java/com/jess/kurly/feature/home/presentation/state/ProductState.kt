@@ -4,7 +4,7 @@ import androidx.compose.runtime.Stable
 
 @Stable
 data class ProductState(
-    val id: Long,
+    val id: Int,
     val title: String?,
     val heart: HeartState?,
     val image: String?,
@@ -14,7 +14,7 @@ data class ProductState(
     companion object {
 
         fun initial(
-            id: Long = 0,
+            id: Int = 0,
             title: String? = null,
             heart: HeartState? = HeartState.Off,
             image: String? = null,

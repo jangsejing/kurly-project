@@ -17,6 +17,7 @@ internal fun ProductResponse.toEntity(): ProductEntity {
         name = name,
         image = image,
         originalPrice = originalPrice,
+        discountedPrice = discountedPrice,
         isSoldOut = isSoldOut,
     )
 }

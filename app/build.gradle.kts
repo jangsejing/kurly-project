@@ -48,8 +48,8 @@ android {
 
 dependencies {
 
-    // projects
-    implementation(project(":navigator"))
+    implementation(project(":network"))
+    implementation(project(":feature:home"))
 
     // androidx
     implementation(libs.androidx.activity.compose)

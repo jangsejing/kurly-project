@@ -92,7 +92,7 @@ internal fun PriceItem(
         modifier = modifier,
     ) {
         // 할인율
-        if (!discountRate.isNullOrBlank()) {
+        if (discountRate != null) {
             Text(
                 modifier = Modifier,
                 text = stringResource(R.string.home_price_rate).format(discountRate),

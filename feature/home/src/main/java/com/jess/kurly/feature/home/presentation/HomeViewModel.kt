@@ -13,6 +13,9 @@ import com.jess.kurly.feature.home.presentation.state.PriceState
 import com.jess.kurly.feature.home.presentation.state.ProductState
 import com.jess.kurly.feature.home.presentation.state.SectionState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,35 +42,45 @@ internal class HomeViewModel @Inject constructor(
         kotlin.runCatching {
             val sections = getSections(page)
             sections.data.map { data ->
+                val sectionId = data.id
                 SectionState(
-                    id = data.id ?: data.hashCode().toLong(),
+                    id = data.id ?: data.hashCode(),
                     title = data.title,
                     orientation = when (data.type) {
                         OrientationType.GRID -> OrientationState.Grid
                         OrientationType.HORIZONTAL -> OrientationState.Horizontal
                         else -> OrientationState.Vertical
                     },
-                    products = emptyList(),
+                    products = requestProducts(sectionId),
                 )
+            }.also {
+                Timber.d("$it")
             }
         }.onFailure {
             Timber.e(it)
         }
+        // Unable to resolve host "kurly.com": No address associated with hostname
     }
 
+    
+
     private suspend fun requestProducts(
-        sectionId: Int,
-    ) {
+        sectionId: Int?,
+    ): PersistentList<ProductState> {
+        if (sectionId == null) {
+            return persistentListOf()
+        }
+
         val products = getProducts(sectionId)
-        products.data.map { data ->
+        return products.data.map { data ->
             ProductState(
-                id = data.id ?: data.hashCode().toLong(),
+                id = data.id ?: data.hashCode(),
                 title = data.name,
                 heart = HeartState.Off,
                 image = data.image,
                 price = createPriceState(data)
             )
-        }
+        }.toPersistentList()
     }
 
     private fun createPriceState(

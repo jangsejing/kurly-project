@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -32,10 +31,6 @@ android {
 }
 
 dependencies {
-
-//    // project
-//    implementation(project(":model"))
-
     // javaxInject
     implementation(libs.javax.inject)
 }
