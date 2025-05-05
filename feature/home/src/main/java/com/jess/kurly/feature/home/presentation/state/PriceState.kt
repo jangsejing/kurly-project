@@ -14,11 +14,10 @@ data class PriceState(
     val originalPrice: Int? = null,
 ) {
     companion object {
-
-        fun initial(
+        fun zero(
             sellingPrice: Int = 0,
-            discountRate: Int? = null,
-            originalPrice: Int? = null,
+            discountRate: Int? = 0,
+            originalPrice: Int? = 0,
         ) = PriceState(
             sellingPrice = sellingPrice,
             discountRate = discountRate,

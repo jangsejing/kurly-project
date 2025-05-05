@@ -1,7 +1,9 @@
 package com.jess.kurly.feature.home.presentation.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -24,8 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.jess.kurly.feature.home.presentation.state.OrientationState
+import com.jess.kurly.feature.home.presentation.state.PriceState
 import com.jess.kurly.feature.home.presentation.state.ProductState
 import com.jess.kurly.feature.home.presentation.state.SectionState
+import com.jess.kurly.ui.MeasuredHeightContainer
 import com.jess.kurly.ui.component.KurlyInfinityLazyColumn
 import kotlinx.collections.immutable.PersistentList
 
@@ -105,35 +110,64 @@ internal fun Sections(
 }
 
 @Composable
+private fun MeasuredProductHeight(
+    items: PersistentList<ProductState>,
+) {
+    Product(
+        modifier = Modifier.padding(
+            vertical = 12.dp,
+        ),
+        imageModifier = Modifier.size(150.dp, 200.dp),
+        titleMaxLines = 2,
+        product = items.maxBy {
+            it.title.orEmpty().length
+        }.copy(
+            price = PriceState.zero(),
+        ),
+        orientation = OrientationState.Horizontal,
+    )
+}
+
+@Composable
 private fun GridSection(
     items: PersistentList<ProductState>,
     onHeartClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyVerticalGrid(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(620.dp),
-        columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(horizontal = 4.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    MeasuredHeightContainer(
+        modifier = modifier,
+        measured = {
+            Column {
+                MeasuredProductHeight(items)
+                Spacer(Modifier.height(4.dp))
+                MeasuredProductHeight(items)
+            }
+        },
     ) {
-        itemsIndexed(
-            items = items,
-            key = { _, item ->
-                item.id ?: item.hashCode()
-            },
-        ) { _, item ->
-            Product(
-                modifier = Modifier.width(150.dp),
-                imageModifier = Modifier
-                    .size(150.dp, 200.dp),
-                titleMaxLines = 2,
-                product = item,
-                orientation = OrientationState.Grid,
-                onHeartClick = onHeartClick,
-            )
+        LazyVerticalGrid(
+            modifier = Modifier,
+            columns = GridCells.Fixed(3),
+            contentPadding = PaddingValues(horizontal = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            userScrollEnabled = false,
+        ) {
+            itemsIndexed(
+                items = items,
+                key = { _, item ->
+                    item.id ?: item.hashCode()
+                },
+            ) { _, item ->
+                Product(
+                    modifier = Modifier.width(150.dp),
+                    imageModifier = Modifier
+                        .size(150.dp, 200.dp),
+                    titleMaxLines = 2,
+                    product = item,
+                    orientation = OrientationState.Grid,
+                    onHeartClick = onHeartClick,
+                )
+            }
         }
     }
 }
@@ -144,32 +178,38 @@ private fun HorizontalSection(
     onHeartClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyRow(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(310.dp),
-        contentPadding = PaddingValues(horizontal = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    MeasuredHeightContainer(
+        modifier = modifier,
+        measured = {
+            MeasuredProductHeight(items)
+        },
     ) {
-        itemsIndexed(
-            items = items,
-            key = { _, item ->
-                item.id ?: item.hashCode()
-            },
-        ) { _, item ->
-            Product(
-                modifier = Modifier.width(150.dp),
-                imageModifier = Modifier
-                    .size(150.dp, 200.dp),
-                titleMaxLines = 2,
-                product = item,
-                orientation = OrientationState.Horizontal,
-                onHeartClick = onHeartClick,
-            )
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentPadding = PaddingValues(
+                horizontal = 4.dp,
+            ),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            itemsIndexed(
+                items = items,
+                key = { _, item ->
+                    item.id ?: item.hashCode()
+                },
+            ) { _, item ->
+                Product(
+                    modifier = Modifier.width(150.dp),
+                    imageModifier = Modifier.size(150.dp, 200.dp),
+                    titleMaxLines = 2,
+                    product = item,
+                    orientation = OrientationState.Horizontal,
+                    onHeartClick = onHeartClick,
+                )
+            }
         }
     }
 }
-
 
 @Composable
 private fun VerticalSection(

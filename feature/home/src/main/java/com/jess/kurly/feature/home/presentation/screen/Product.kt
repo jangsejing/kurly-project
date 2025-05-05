@@ -32,11 +32,11 @@ import com.jess.kurly.ui.theme.KurlyColor
 @Composable
 internal fun Product(
     product: ProductState,
-    orientation: OrientationState,
-    onHeartClick: () -> Unit,
     modifier: Modifier = Modifier,
     imageModifier: Modifier = Modifier,
     titleMaxLines: Int = Int.MAX_VALUE,
+    orientation: OrientationState = OrientationState.Vertical,
+    onHeartClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier,
@@ -110,10 +110,7 @@ internal fun Price(
         is OrientationState.Vertical -> {
             Row(
                 modifier = modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 4.dp,
-                    ),
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 // 할인율
@@ -153,9 +150,7 @@ internal fun Price(
 
         else -> {
             Column(
-                modifier = modifier.padding(
-                    top = 4.dp,
-                ),
+                modifier = modifier,
             ) {
                 Row {
                     // 할인율

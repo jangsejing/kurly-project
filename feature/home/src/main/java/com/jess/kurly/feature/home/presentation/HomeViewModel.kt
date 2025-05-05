@@ -32,6 +32,10 @@ internal class HomeViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(HomeUiState.initial())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
+    // 페이징 정보
+    private var nextPage: Int = 1
+    private var finishedPage: Boolean = false
+
     init {
         requestSections()
     }
@@ -39,6 +43,11 @@ internal class HomeViewModel @Inject constructor(
     fun requestSections(
         page: Int = 1,
     ) = viewModelScope.launch {
+
+        if (finishedPage) {
+            return@launch
+        }
+
         _uiState.update { prev ->
             prev.copy(
                 isRefreshing = true,
@@ -93,8 +102,21 @@ internal class HomeViewModel @Inject constructor(
 
             _uiState.update { prev ->
                 prev.copy(
-                    sections = results.toPersistentList(),
+                    sections = if (nextPage == 1) {
+                        results.toPersistentList()
+                    } else {
+                        prev.sections.addAll(
+                            results.toPersistentList(),
+                        )
+                    },
                 )
+            }
+
+            // 페이지 정보 처리
+            sections.nextPage?.let {
+                nextPage = it
+            } ?: run {
+                finishedPage = true
             }
         }.onFailure {
             // Unable to resolve host "kurly.com": No address associated with hostname
@@ -156,10 +178,13 @@ internal class HomeViewModel @Inject constructor(
 
     fun onLoadMore() {
         Timber.d("onLoadMore")
+        requestSections(nextPage)
     }
 
     fun onRefresh() {
         Timber.d("onRefresh")
+        nextPage = 1
+        finishedPage = false
         requestSections()
     }
 }
