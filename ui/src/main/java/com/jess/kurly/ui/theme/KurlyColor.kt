@@ -14,5 +14,4 @@ object KurlyColor {
 
     val DiscountRate = Color(0xFFfa622f)
     val Kurly = Color(0xFF5f0080)
-
 }
