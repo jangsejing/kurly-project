@@ -1,5 +1,5 @@
 <resources>
-    <string name="home_title">홈</string>
+    <string name="home_title">Kurly</string>
     <string name="home_back">뒤로가기</string>
     <string name="home_price_rate">%s%%</string>
     <string name="home_price_won">%,d원</string>

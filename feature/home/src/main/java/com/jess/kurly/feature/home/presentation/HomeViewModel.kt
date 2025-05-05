@@ -6,7 +6,6 @@ import com.jess.kurly.domain.entity.ProductEntity
 import com.jess.kurly.domain.type.OrientationType
 import com.jess.kurly.domain.usecase.GetProductsUserCase
 import com.jess.kurly.domain.usecase.GetSectionsUserCase
-import com.jess.kurly.feature.home.presentation.state.HeartState
 import com.jess.kurly.feature.home.presentation.state.HomeUiState
 import com.jess.kurly.feature.home.presentation.state.PriceState
 import com.jess.kurly.feature.home.presentation.state.ProductState
@@ -64,7 +63,7 @@ internal class HomeViewModel @Inject constructor(
                         OrientationType.GRID -> {
                             add(
                                 SectionState.Grid(
-                                    id = entity.id,
+                                    id = entity.id ?: entity.hashCode(),
                                     products = products.take(6).toPersistentList(), // 6개 까지
                                 ),
                             )
@@ -73,7 +72,7 @@ internal class HomeViewModel @Inject constructor(
                         OrientationType.HORIZONTAL -> {
                             add(
                                 SectionState.Horizontal(
-                                    id = entity.id,
+                                    id = entity.id ?: entity.hashCode(),
                                     products = products,
                                 ),
                             )
@@ -141,7 +140,7 @@ internal class HomeViewModel @Inject constructor(
             ProductState(
                 id = data.id ?: data.hashCode(),
                 title = data.name,
-                heart = HeartState.Off,
+                heart = false,
                 image = data.image,
                 price = createPriceState(data),
             )
@@ -184,5 +183,54 @@ internal class HomeViewModel @Inject constructor(
         nextPage = 1
         finishedPage = false
         requestSections()
+    }
+
+    fun onHeartClick(id: Int) {
+        _uiState.update { prev ->
+            val results = prev.sections.map { section ->
+                when (section) {
+                    is SectionState.Grid -> {
+                        section.copy(
+                            products = section.products.map { product ->
+                                if (product.id == id) {
+                                    product.copy(heart = !product.heart)
+                                } else {
+                                    product
+                                }
+                            }.toPersistentList(),
+                        )
+                    }
+
+                    is SectionState.Horizontal -> {
+                        section.copy(
+                            products = section.products.map { product ->
+                                if (product.id == id) {
+                                    product.copy(heart = !product.heart)
+                                } else {
+                                    product
+                                }
+                            }.toPersistentList(),
+                        )
+                    }
+
+                    is SectionState.Vertical -> {
+                        if (section.product.id == id) {
+                            val product = section.product
+                            section.copy(
+                                product = section.product.copy(heart = !product.heart),
+                            )
+                        } else {
+                            section
+                        }
+                    }
+
+                    else -> section
+                }
+            }.toPersistentList()
+
+            prev.copy(
+                sections = results,
+            )
+        }
     }
 }

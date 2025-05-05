@@ -37,6 +37,7 @@ import kotlinx.collections.immutable.PersistentList
 internal fun Sections(
     items: PersistentList<SectionState>,
     onLoadMore: () -> Unit,
+    onHeartClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
 ) {
@@ -49,9 +50,12 @@ internal fun Sections(
             items = items,
             key = { index, item ->
                 when (item) {
+                    is SectionState.Grid -> item.id
+                    is SectionState.Horizontal -> item.id
+                    is SectionState.Vertical -> item.id
+                    is SectionState.Title -> item.hashCode()
                     // Divider 는 hash 가 계속 같은 구조 이기 때문에 별도 key 처리
-                    is SectionState.Divider -> item.javaClass.simpleName + "-$index"
-                    else -> item.id ?: item.hashCode()
+                    is SectionState.Divider -> "divider-$index"
                 }
             },
             contentType = { _, item ->
@@ -70,24 +74,21 @@ internal fun Sections(
                 is SectionState.Grid -> {
                     GridSection(
                         items = item.products,
-                        onHeartClick = {
-                        },
+                        onHeartClick = onHeartClick,
                     )
                 }
 
                 is SectionState.Horizontal -> {
                     HorizontalSection(
                         items = item.products,
-                        onHeartClick = {
-                        },
+                        onHeartClick = onHeartClick,
                     )
                 }
 
                 is SectionState.Vertical -> {
                     VerticalSection(
                         product = item.product,
-                        onHeartClick = {
-                        },
+                        onHeartClick = onHeartClick,
                     )
                 }
 
@@ -105,6 +106,9 @@ internal fun Sections(
     }
 }
 
+/**
+ * Row, Grid 를 구현할때 내부 item 들이 다를때 높이를 미리 계산하는 Composable 입니다.
+ */
 @Composable
 private fun MeasuredProductHeight(
     items: PersistentList<ProductState>,
@@ -127,7 +131,7 @@ private fun MeasuredProductHeight(
 @Composable
 private fun GridSection(
     items: PersistentList<ProductState>,
-    onHeartClick: () -> Unit,
+    onHeartClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     MeasuredHeightContainer(
@@ -151,7 +155,7 @@ private fun GridSection(
             itemsIndexed(
                 items = items,
                 key = { _, item ->
-                    item.id ?: item.hashCode()
+                    item.id
                 },
             ) { _, item ->
                 Product(
@@ -171,7 +175,7 @@ private fun GridSection(
 @Composable
 private fun HorizontalSection(
     items: PersistentList<ProductState>,
-    onHeartClick: () -> Unit,
+    onHeartClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     MeasuredHeightContainer(
@@ -191,7 +195,7 @@ private fun HorizontalSection(
             itemsIndexed(
                 items = items,
                 key = { _, item ->
-                    item.id ?: item.hashCode()
+                    item.id
                 },
             ) { _, item ->
                 Product(
@@ -210,7 +214,7 @@ private fun HorizontalSection(
 @Composable
 private fun VerticalSection(
     product: ProductState,
-    onHeartClick: () -> Unit,
+    onHeartClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Product(

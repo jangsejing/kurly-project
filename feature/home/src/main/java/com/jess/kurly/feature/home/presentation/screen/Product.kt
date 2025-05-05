@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.jess.kurly.feature.home.R
-import com.jess.kurly.feature.home.presentation.state.HeartState
 import com.jess.kurly.feature.home.presentation.state.OrientationState
 import com.jess.kurly.feature.home.presentation.state.PriceState
 import com.jess.kurly.feature.home.presentation.state.ProductState
@@ -36,7 +35,7 @@ internal fun Product(
     imageModifier: Modifier = Modifier,
     titleMaxLines: Int = Int.MAX_VALUE,
     orientation: OrientationState = OrientationState.Vertical,
-    onHeartClick: () -> Unit = {},
+    onHeartClick: (Int) -> Unit = {},
 ) {
     Box(
         modifier = modifier,
@@ -77,15 +76,18 @@ internal fun Product(
         IconButton(
             modifier = Modifier
                 .align(Alignment.TopEnd),
-            onClick = onHeartClick,
+            onClick = {
+                onHeartClick(product.id)
+            },
         ) {
             Icon(
-                painter = if (product.heart == HeartState.On) {
+                painter = if (product.heart) {
                     painterResource(R.drawable.ic_btn_heart_on)
                 } else {
                     painterResource(R.drawable.ic_btn_heart_off)
                 },
                 contentDescription = stringResource(R.string.home_heart_content_description),
+                tint = Color.Unspecified,
             )
         }
     }

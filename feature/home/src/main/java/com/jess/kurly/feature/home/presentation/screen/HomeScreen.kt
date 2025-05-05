@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,6 +48,7 @@ internal fun HomeScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            tint = Color.White,
                             contentDescription = stringResource(id = R.string.home_back),
                         )
                     }
@@ -70,6 +72,7 @@ internal fun HomeScreen(
             Sections(
                 items = uiState.sections,
                 onLoadMore = viewModel::onLoadMore,
+                onHeartClick = viewModel::onHeartClick,
             )
 
             PullToRefreshDefaults.Indicator(

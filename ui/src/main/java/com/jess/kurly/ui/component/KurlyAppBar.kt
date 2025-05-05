@@ -11,6 +11,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.jess.kurly.ui.theme.KurlyColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,8 +22,8 @@ fun KurlyAppBar(
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        titleContentColor = Color.Black,
+        containerColor = KurlyColor.Kurly,
+        titleContentColor = Color.White,
     ),
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {

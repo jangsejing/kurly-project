@@ -7,8 +7,6 @@ import kotlinx.collections.immutable.PersistentList
 @Stable
 internal sealed interface SectionState {
 
-    val id: Int? get() = null
-
     @Stable
     data class Title(
         val title: String?,
@@ -16,19 +14,19 @@ internal sealed interface SectionState {
 
     @Stable
     data class Grid(
-        override val id: Int?,
+        val id: Int,
         val products: PersistentList<ProductState>,
     ) : SectionState
 
     @Stable
     data class Horizontal(
-        override val id: Int?,
+        val id: Int,
         val products: PersistentList<ProductState>,
     ) : SectionState
 
     @Stable
     data class Vertical(
-        override val id: Int?,
+        val id: Int,
         val product: ProductState,
     ) : SectionState
 

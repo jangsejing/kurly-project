@@ -4,9 +4,9 @@ import androidx.compose.runtime.Stable
 
 @Stable
 internal data class ProductState(
-    val id: Int?,
+    val id: Int,
     val title: String?,
-    val heart: HeartState?,
+    val heart: Boolean,
     val image: String?,
     val price: PriceState?,
 )
