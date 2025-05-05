@@ -40,7 +40,7 @@ internal class HomeViewModel @Inject constructor(
         requestSections()
     }
 
-    fun requestSections(
+    private fun requestSections(
         page: Int = 1,
     ) = viewModelScope.launch {
 
@@ -66,7 +66,7 @@ internal class HomeViewModel @Inject constructor(
                             add(
                                 SectionState.Grid(
                                     id = entity.id,
-                                    products = products,
+                                    products = products.take(6).toPersistentList(), // 6개 까지 
                                 )
                             )
                         }
@@ -162,10 +162,10 @@ internal class HomeViewModel @Inject constructor(
 
         // 할인된 가격이 있을 경우
         return if (discountedPrice != null && originalPrice > discountedPrice) {
-            val diff = originalPrice - discountedPrice
-            val rate = (diff / originalPrice) * 100
+            val diff = (originalPrice - discountedPrice)
+            val rate = (diff.toDouble() / originalPrice) * 100
             PriceState(
-                discountRate = rate,
+                discountRate = rate.toInt(),
                 originalPrice = originalPrice,
                 sellingPrice = discountedPrice,
             )
