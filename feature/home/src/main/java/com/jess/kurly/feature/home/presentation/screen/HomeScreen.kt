@@ -31,7 +31,6 @@ internal fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -68,7 +67,6 @@ internal fun HomeScreen(
                     onRefresh = viewModel::onRefresh,
                 ),
         ) {
-
             Sections(
                 items = uiState.sections,
                 onLoadMore = viewModel::onLoadMore,

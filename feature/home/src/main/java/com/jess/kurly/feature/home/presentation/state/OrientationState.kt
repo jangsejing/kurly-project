@@ -14,5 +14,4 @@ sealed interface OrientationState {
 
     @Immutable
     data object Vertical : OrientationState
-
 }

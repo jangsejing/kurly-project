@@ -4,7 +4,7 @@ import com.kurly.android.mockserver.core.FileProvider
 import okhttp3.Request
 
 internal class MockServer(
-    private val fileProvider: FileProvider
+    private val fileProvider: FileProvider,
 ) {
 
     fun get(request: Request): String? {

@@ -10,4 +10,3 @@ internal data class ProductState(
     val image: String?,
     val price: PriceState?,
 )
-

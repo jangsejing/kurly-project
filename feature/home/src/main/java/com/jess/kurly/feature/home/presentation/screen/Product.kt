@@ -48,7 +48,7 @@ internal fun Product(
                 contentDescription = stringResource(
                     R.string.home_image_content_description,
                 ).format(
-                    product.title
+                    product.title,
                 ),
             )
 
@@ -85,7 +85,7 @@ internal fun Product(
                 } else {
                     painterResource(R.drawable.ic_btn_heart_off)
                 },
-                contentDescription = stringResource(R.string.home_heart_content_description)
+                contentDescription = stringResource(R.string.home_heart_content_description),
             )
         }
     }

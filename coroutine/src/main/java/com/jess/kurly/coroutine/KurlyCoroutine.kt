@@ -12,9 +12,8 @@ interface KurlyCoroutine {
     fun CoroutineScope.kurlyLaunch(
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
-        block: suspend CoroutineScope.() -> Unit
+        block: suspend CoroutineScope.() -> Unit,
     ): Job
-
 }
 
 class KurlyCoroutineImpl : KurlyCoroutine {
@@ -22,13 +21,11 @@ class KurlyCoroutineImpl : KurlyCoroutine {
     override fun CoroutineScope.kurlyLaunch(
         context: CoroutineContext,
         start: CoroutineStart,
-        block: suspend CoroutineScope.() -> Unit
+        block: suspend CoroutineScope.() -> Unit,
     ): Job = launch(context, start) {
         val result = kotlin.runCatching {
             block()
         }.onFailure { exception ->
-
         }
     }
-
 }

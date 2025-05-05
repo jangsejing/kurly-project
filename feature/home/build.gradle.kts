@@ -60,5 +60,4 @@ dependencies {
     // other
     implementation(libs.timber.core)
     implementation(libs.kotlinx.collections.immutable)
-
 }

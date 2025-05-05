@@ -21,4 +21,3 @@ data class ProductResponse(
     @SerializedName("isSoldOut")
     val isSoldOut: Boolean?,
 )
-

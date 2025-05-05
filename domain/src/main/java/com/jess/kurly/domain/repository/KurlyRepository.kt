@@ -12,5 +12,4 @@ interface KurlyRepository {
     suspend fun getProducts(
         sectionId: Int,
     ): ProductsEntity
-
 }

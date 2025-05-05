@@ -7,7 +7,7 @@ internal fun ProductsResponse.toEntity(): ProductsEntity {
     return ProductsEntity(
         data = data?.map {
             it.toEntity()
-        }.orEmpty()
+        }.orEmpty(),
     )
 }
 

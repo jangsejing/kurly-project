@@ -43,7 +43,6 @@ internal class HomeViewModel @Inject constructor(
     private fun requestSections(
         page: Int = 1,
     ) = viewModelScope.launch {
-
         if (finishedPage) {
             return@launch
         }
@@ -66,8 +65,8 @@ internal class HomeViewModel @Inject constructor(
                             add(
                                 SectionState.Grid(
                                     id = entity.id,
-                                    products = products.take(6).toPersistentList(), // 6개 까지 
-                                )
+                                    products = products.take(6).toPersistentList(), // 6개 까지
+                                ),
                             )
                         }
 
@@ -76,7 +75,7 @@ internal class HomeViewModel @Inject constructor(
                                 SectionState.Horizontal(
                                     id = entity.id,
                                     products = products,
-                                )
+                                ),
                             )
                         }
 
@@ -84,7 +83,7 @@ internal class HomeViewModel @Inject constructor(
                             products.map { product ->
                                 SectionState.Vertical(
                                     product.id,
-                                    product
+                                    product,
                                 )
                             }.also {
                                 addAll(it)
@@ -144,7 +143,7 @@ internal class HomeViewModel @Inject constructor(
                 title = data.name,
                 heart = HeartState.Off,
                 image = data.image,
-                price = createPriceState(data)
+                price = createPriceState(data),
             )
         }.toPersistentList()
     }
@@ -152,7 +151,6 @@ internal class HomeViewModel @Inject constructor(
     private fun createPriceState(
         data: ProductEntity,
     ): PriceState? {
-
         val originalPrice = data.originalPrice
         val discountedPrice = data.discountedPrice
 

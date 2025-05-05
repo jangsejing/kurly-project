@@ -12,7 +12,7 @@ import com.jess.kurly.ui.SlotId.Measured
  */
 enum class SlotId {
     Measured,
-    Content
+    Content,
 }
 
 /**

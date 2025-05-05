@@ -1,14 +1,12 @@
 package com.kurly.android.mockserver
 
 import android.content.Context
-import android.os.SystemClock
 import com.kurly.android.mockserver.core.AssetFileProvider
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Protocol
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
-import kotlin.random.Random
 
 class MockInterceptor(context: Context) : Interceptor {
 
@@ -30,8 +28,8 @@ class MockInterceptor(context: Context) : Interceptor {
                     body(
                         responseString.toByteArray()
                             .toResponseBody(
-                                "application/json".toMediaType()
-                            )
+                                "application/json".toMediaType(),
+                            ),
                     )
                     protocol(Protocol.HTTP_2)
                     addHeader("content-type", "application/json")

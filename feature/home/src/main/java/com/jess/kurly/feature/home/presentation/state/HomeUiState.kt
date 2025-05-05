@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Stable
 internal data class HomeUiState(
     val isRefreshing: Boolean,
-    val sections: PersistentList<SectionState>
+    val sections: PersistentList<SectionState>,
 ) {
 
     companion object {

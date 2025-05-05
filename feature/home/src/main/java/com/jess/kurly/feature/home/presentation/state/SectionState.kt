@@ -34,5 +34,4 @@ internal sealed interface SectionState {
 
     @Immutable
     data object Divider : SectionState
-
 }

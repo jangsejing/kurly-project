@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -72,7 +71,6 @@ internal fun Sections(
                     GridSection(
                         items = item.products,
                         onHeartClick = {
-
                         },
                     )
                 }
@@ -81,7 +79,6 @@ internal fun Sections(
                     HorizontalSection(
                         items = item.products,
                         onHeartClick = {
-
                         },
                     )
                 }
@@ -90,7 +87,6 @@ internal fun Sections(
                     VerticalSection(
                         product = item.product,
                         onHeartClick = {
-
                         },
                     )
                 }
