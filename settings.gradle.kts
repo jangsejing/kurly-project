@@ -23,7 +23,6 @@ dependencyResolutionManagement {
 rootProject.name = "kurly-project"
 include(
     ":app",
-    ":coroutine",
     ":data",
     ":domain",
     ":feature:home",
