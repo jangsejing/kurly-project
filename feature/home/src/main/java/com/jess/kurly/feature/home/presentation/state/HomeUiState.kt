@@ -1,18 +1,20 @@
 package com.jess.kurly.feature.home.presentation.state
 
 import androidx.compose.runtime.Stable
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 
 @Stable
-data class HomeUiState(
+internal data class HomeUiState(
     val isRefreshing: Boolean,
-    val sections: List<SectionState>
+    val sections: PersistentList<SectionState>
 ) {
 
     companion object {
 
         fun initial(
             isRefreshing: Boolean = false,
-            sections: List<SectionState> = emptyList(),
+            sections: PersistentList<SectionState> = persistentListOf(),
         ) = HomeUiState(
             isRefreshing = isRefreshing,
             sections = sections,

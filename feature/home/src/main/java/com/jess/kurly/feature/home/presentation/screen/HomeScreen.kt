@@ -2,6 +2,7 @@ package com.jess.kurly.feature.home.presentation.screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,19 +54,25 @@ internal fun HomeScreen(
                 },
             )
         },
-    ) { _ ->
+    ) { innerPadding ->
 
         val pullToRefreshState = rememberPullToRefreshState()
 
         Box(
-            modifier = Modifier.pullToRefresh(
-                state = pullToRefreshState,
-                isRefreshing = uiState.isRefreshing,
-                onRefresh = viewModel::onRefresh,
-            ),
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .pullToRefresh(
+                    state = pullToRefreshState,
+                    isRefreshing = uiState.isRefreshing,
+                    onRefresh = viewModel::onRefresh,
+                ),
         ) {
 
-
+            Sections(
+                items = uiState.sections,
+                onLoadMore = viewModel::onLoadMore,
+            )
 
             PullToRefreshDefaults.Indicator(
                 modifier = Modifier.align(Alignment.TopCenter),

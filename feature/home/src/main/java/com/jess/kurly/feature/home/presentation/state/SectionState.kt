@@ -1,29 +1,38 @@
 package com.jess.kurly.feature.home.presentation.state
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
 
 @Stable
-data class SectionState(
-    val id: Int,
-    val title: String?,
-    val orientation: OrientationState,
-    val products: PersistentList<ProductState>,
-) {
-    companion object {
+internal sealed interface SectionState {
 
-        fun initial(
-            id: Int = 0,
-            title: String? = null,
-            orientation: OrientationState = OrientationState.Vertical,
-            products: PersistentList<ProductState> = persistentListOf()
-        ) = SectionState(
-            id = id,
-            title = title,
-            orientation = orientation,
-            products = products,
-        )
-    }
+    val id: Int? get() = null
+
+    @Stable
+    data class Title(
+        val title: String?,
+    ) : SectionState
+
+    @Stable
+    data class Grid(
+        override val id: Int?,
+        val products: PersistentList<ProductState>,
+    ) : SectionState
+
+    @Stable
+    data class Horizontal(
+        override val id: Int?,
+        val products: PersistentList<ProductState>,
+    ) : SectionState
+
+    @Stable
+    data class Vertical(
+        override val id: Int?,
+        val product: ProductState,
+    ) : SectionState
+
+    @Immutable
+    data object Divider : SectionState
+
 }
-

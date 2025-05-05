@@ -8,7 +8,6 @@ import com.jess.kurly.domain.usecase.GetProductsUserCase
 import com.jess.kurly.domain.usecase.GetSectionsUserCase
 import com.jess.kurly.feature.home.presentation.state.HeartState
 import com.jess.kurly.feature.home.presentation.state.HomeUiState
-import com.jess.kurly.feature.home.presentation.state.OrientationState
 import com.jess.kurly.feature.home.presentation.state.PriceState
 import com.jess.kurly.feature.home.presentation.state.ProductState
 import com.jess.kurly.feature.home.presentation.state.SectionState
@@ -19,6 +18,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,30 +39,74 @@ internal class HomeViewModel @Inject constructor(
     fun requestSections(
         page: Int = 1,
     ) = viewModelScope.launch {
+        _uiState.update { prev ->
+            prev.copy(
+                isRefreshing = true,
+            )
+        }
+
         kotlin.runCatching {
             val sections = getSections(page)
-            sections.data.map { data ->
-                val sectionId = data.id
-                SectionState(
-                    id = data.id ?: data.hashCode(),
-                    title = data.title,
-                    orientation = when (data.type) {
-                        OrientationType.GRID -> OrientationState.Grid
-                        OrientationType.HORIZONTAL -> OrientationState.Horizontal
-                        else -> OrientationState.Vertical
-                    },
-                    products = requestProducts(sectionId),
+            val results = arrayListOf<SectionState>().apply {
+                sections.data.forEachIndexed { index, entity ->
+                    // 제목
+                    add(SectionState.Title(entity.title))
+                    val products = requestProducts(entity.id)
+                    when (entity.type) {
+                        OrientationType.GRID -> {
+                            add(
+                                SectionState.Grid(
+                                    id = entity.id,
+                                    products = products,
+                                )
+                            )
+                        }
+
+                        OrientationType.HORIZONTAL -> {
+                            add(
+                                SectionState.Horizontal(
+                                    id = entity.id,
+                                    products = products,
+                                )
+                            )
+                        }
+
+                        OrientationType.VERTICAL -> {
+                            products.map { product ->
+                                SectionState.Vertical(
+                                    product.id,
+                                    product
+                                )
+                            }.also {
+                                addAll(it)
+                            }
+                        }
+
+                        else -> Unit
+                    }
+
+                    if (index < sections.data.lastIndex) {
+                        add(SectionState.Divider)
+                    }
+                }
+            }
+
+            _uiState.update { prev ->
+                prev.copy(
+                    sections = results.toPersistentList(),
                 )
-            }.also {
-                Timber.d("$it")
             }
         }.onFailure {
+            // Unable to resolve host "kurly.com": No address associated with hostname
             Timber.e(it)
         }
-        // Unable to resolve host "kurly.com": No address associated with hostname
-    }
 
-    
+        _uiState.update { prev ->
+            prev.copy(
+                isRefreshing = false,
+            )
+        }
+    }
 
     private suspend fun requestProducts(
         sectionId: Int?,
@@ -110,7 +154,12 @@ internal class HomeViewModel @Inject constructor(
         }
     }
 
+    fun onLoadMore() {
+        Timber.d("onLoadMore")
+    }
+
     fun onRefresh() {
+        Timber.d("onRefresh")
         requestSections()
     }
 }
